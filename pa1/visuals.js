@@ -82,16 +82,20 @@ function draw(data) {
     var xScale = d3.scale.linear()
                     .domain([d3.min(dataset, function(d) { return d.year; }),
                                 d3.max(dataset, function(d) { return d.year; })])
-                    .range([padding, w - padding * 2]);
+                    .range([padding, w - padding * 2])
+                    .nice();
 
     // set y scale to be from 0 to largest number of repos
     var yScale = d3.scale.log()
                     .domain([1, d3.max(dataset, function(d) { return d.nbRepos; })])
-                    .range([h - padding, padding]);
+                    .range([h - padding, padding])
+                    .nice();
 
     var xAxis = d3.svg.axis()
                         .scale(xScale)
-                        .orient("bottom");
+                        .orient("bottom")
+                        .ticks(2);
+
     var yAxis = d3.svg.axis()
                         .scale(yScale)
                         .orient("left")
@@ -142,6 +146,7 @@ function draw(data) {
         .append("line")
         .transition()
         .duration(transitionDuration)
+        .delay(500)
         .attr("x1", function(d) {
             return xScale(d.x1);
         })
@@ -159,6 +164,7 @@ function draw(data) {
 
     influenceLines.transition()
         .duration(transitionDuration)
+        .delay(500)
         .attr("x1", function(d) {
             return xScale(d.x1);
         })
@@ -185,6 +191,7 @@ function draw(data) {
     circles.enter()
         .append("circle")
         .transition()
+        .delay(1000)
         .duration(transitionDuration)
         .attr("cx", function(d) {
             return xScale(d.year);
@@ -196,6 +203,7 @@ function draw(data) {
 
     circles.transition()
         .duration(transitionDuration)
+        .delay(500)
         .attr("cx", function(d) {
             return xScale(d.year);
         })
@@ -220,6 +228,7 @@ function draw(data) {
         .append("text")
         .transition()
         .duration(transitionDuration)
+        .delay(500)
         .text(function(d) {
             return d.name;
         })
@@ -235,6 +244,7 @@ function draw(data) {
 
     text.transition()
         .duration(transitionDuration)
+        .delay(500)
         .attr("x", function(d) {
             return xScale(d.year) + 2;
         })
@@ -258,6 +268,7 @@ function draw(data) {
     axisX.enter()
         .append("g")
         .transition()
+        .delay(500)
         .duration(transitionDuration)
         .attr("class", "axis")
         .attr("transform", "translate(0," + (h - padding) + ")")
@@ -265,6 +276,7 @@ function draw(data) {
 
     axisX.transition()
         .duration(transitionDuration)
+        .delay(500)
         .attr("class", "axis")
         .attr("transform", "translate(0," + (h - padding) + ")")
         .call(xAxis);
@@ -278,12 +290,14 @@ function draw(data) {
         .append("g")
         .transition()
         .duration(transitionDuration)
+        .delay(500)
         .attr("class", "axis")
         .attr("transform", "translate(" + padding + ",0)")
         .call(yAxis);
 
     axisY.transition()
         .duration(transitionDuration)
+        .delay(500)
         .attr("class", "axis")
         .attr("transform", "translate(" + padding + ",0)")
         .call(yAxis);
